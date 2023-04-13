@@ -4,11 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
-class MyRecyclerViewAdapter(private val fruits : List<Fruit>,
-                            private val clickListener :(Fruit) -> Unit) : RecyclerView.Adapter<MyViewHolder>() {
+class MyRecyclerViewAdapter(private val fruits : List<Article>,
+                            private val clickListener :(Article) -> Unit) : RecyclerView.Adapter<MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listItem = layoutInflater.inflate(R.layout.list_item, parent, false)
@@ -26,12 +25,14 @@ class MyRecyclerViewAdapter(private val fruits : List<Fruit>,
 }
 
 class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view){
-    fun bind(fruit: Fruit, clickListener :(Fruit) -> Unit){
-        val myTextView = view.findViewById<TextView>(R.id.tvName)
-        myTextView.text = fruit.name
+    fun bind(article: Article, clickListener :(Article) -> Unit){
+        val myTextView = view.findViewById<TextView>(R.id.tvTitle)
+        val myAuthor = view.findViewById<TextView>(R.id.textVieAauthor)
+        myTextView.text = article.name
+        myAuthor.text = article.supplier
 
         view.setOnClickListener(){
-            clickListener(fruit)
+            clickListener(article)
         }
     }
 }

@@ -8,27 +8,27 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
-    val fruits = listOf<Fruit>(
-        Fruit("Mango", "Joe"),
-        Fruit("Apple" ,"Frank"),
-        Fruit("Banana","Tom"),
-        Fruit("Guava","FJoe"),
-        Fruit("Lemon","Alex"),
-        Fruit("Pear","Joe"),
-        Fruit("Orange","Alex")
+    val articles = listOf<Article>(
+        Article("Variety", "Joe"),
+        Article("Life" ,"Frank"),
+        Article("Sport","Tom"),
+        Article("Life","FJoe"),
+        Article("Variety","Alex"),
+        Article("Politics","Joe"),
+        Article("Life","Alex")
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val recyclerView = findViewById<RecyclerView>(R.id.myrecyclerView)
-        recyclerView.setBackgroundColor(Color.YELLOW)
+        recyclerView.setBackgroundColor(Color.WHITE)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = MyRecyclerViewAdapter(fruits) { selectedItem: Fruit ->
+        recyclerView.adapter = MyRecyclerViewAdapter(articles) { selectedItem: Article ->
             listItemClicked(selectedItem)
         }
 
     }
-    private fun listItemClicked(fruit: Fruit){
+    private fun listItemClicked(fruit: Article){
         Toast.makeText(
             this@MainActivity,
             "Supplier is: ${fruit.name}",
