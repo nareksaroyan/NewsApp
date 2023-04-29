@@ -3,36 +3,38 @@ package com.example.recyclerviewdemo
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-    val articles = listOf<Article>(
-        Article("Variety", "Joe"),
-        Article("Life" ,"Frank"),
-        Article("Sport","Tom"),
-        Article("Life","FJoe"),
-        Article("Variety","Alex"),
-        Article("Politics","Joe"),
-        Article("Life","Alex")
-    )
+    lateinit var viewModel: DataLoaderViewModel
+    private lateinit var progressBar: ProgressBar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val recyclerView = findViewById<RecyclerView>(R.id.myrecyclerView)
+
+        progressBar = findViewById(R.id.progressBar)
+
+        viewModel = ViewModelProvider(this)[DataLoaderViewModel::class.java]
+
+        viewModel.isLoading.observe(this, Observer { isLoading ->
+            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        })
+
+        viewModel.loadNews("us", ApiConstants.API_KEY)
+        val recyclerView = findViewById<RecyclerView>(R.id.myRecyclerView)
         recyclerView.setBackgroundColor(Color.WHITE)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = MyRecyclerViewAdapter(articles) { selectedItem: Article ->
-            listItemClicked(selectedItem)
-        }
+        recyclerView.adapter = MyRecyclerViewAdapter(viewModel._newsList.value?.articles!!)
 
-    }
-    private fun listItemClicked(fruit: Article){
-        Toast.makeText(
-            this@MainActivity,
-            "Supplier is: ${fruit.name}",
-            Toast.LENGTH_LONG
-        ).show()
     }
 }

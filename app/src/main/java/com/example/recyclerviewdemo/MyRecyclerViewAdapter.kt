@@ -6,8 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class MyRecyclerViewAdapter(private val fruits : List<Article>,
-                            private val clickListener :(Article) -> Unit) : RecyclerView.Adapter<MyViewHolder>() {
+class MyRecyclerViewAdapter(private val articleResponses : List<ArticleResponse>) : RecyclerView.Adapter<MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listItem = layoutInflater.inflate(R.layout.list_item, parent, false)
@@ -15,24 +14,22 @@ class MyRecyclerViewAdapter(private val fruits : List<Article>,
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val fruit = fruits[position]
-        holder.bind(fruit, clickListener)
+        val fruit = articleResponses[position]
     }
 
     override fun getItemCount(): Int {
-        return fruits.size
+        return articleResponses.size
     }
 }
 
 class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view){
-    fun bind(article: Article, clickListener :(Article) -> Unit){
-        val myTextView = view.findViewById<TextView>(R.id.tvTitle)
-        val myAuthor = view.findViewById<TextView>(R.id.textVieAauthor)
-        myTextView.text = article.name
-        myAuthor.text = article.supplier
+    fun bind(articleResponse: ArticleResponse){
+        val category = view.findViewById<TextView>(R.id.item_category)
+        val mainText = view.findViewById<TextView>(R.id.item_text)
+        val author = view.findViewById<TextView>(R.id.item_author)
+        category.text = articleResponse.title
+        mainText.text = articleResponse.content
+        author.text = articleResponse.author
 
-        view.setOnClickListener(){
-            clickListener(article)
-        }
     }
 }
