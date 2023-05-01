@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         viewModel.news.observe(this) {
-            recyclerView.adapter = MyRecyclerViewAdapter(articleResponses = it.articles)
+            recyclerView.adapter = MyRecyclerViewAdapter(newsResponse = it)
         }
 
     }

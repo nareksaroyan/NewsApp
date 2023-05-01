@@ -23,11 +23,13 @@
 
     <TextView
         android:id="@+id/item_category"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:text="Publishing Website"
         android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/item_image"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:text="Main Text"
+        android:textColor="#1F2D7C"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/item_author"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,12 +48,14 @@
 
     <TextView
         android:id="@+id/item_author"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:text="Author Details"
         android:textSize="12sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/item_image"
         app:layout_constraintTop_toBottomOf="@id/item_text" />
 
