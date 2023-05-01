@@ -14,7 +14,8 @@ class MyRecyclerViewAdapter(private val articleResponses : List<ArticleResponse>
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val fruit = articleResponses[position]
+        val article = articleResponses[position]
+        holder.bind(article)
     }
 
     override fun getItemCount(): Int {

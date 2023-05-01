@@ -31,10 +31,16 @@ class MainActivity : AppCompatActivity() {
         })
 
         viewModel.loadNews("us", ApiConstants.API_KEY)
+
         val recyclerView = findViewById<RecyclerView>(R.id.myRecyclerView)
+
         recyclerView.setBackgroundColor(Color.WHITE)
+
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = MyRecyclerViewAdapter(viewModel._newsList.value?.articles!!)
+
+        viewModel.news.observe(this) {
+            recyclerView.adapter = MyRecyclerViewAdapter(articleResponses = it.articles)
+        }
 
     }
 }
