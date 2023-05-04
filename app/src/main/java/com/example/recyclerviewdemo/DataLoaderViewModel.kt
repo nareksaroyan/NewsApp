@@ -32,4 +32,19 @@ class DataLoaderViewModel : ViewModel() {
             }
         }
     }
+    fun searchNews(country: String, apiKey: String, searchTerm: String) {
+        viewModelScope.launch {
+            _isLoading.postValue(true)
+            try {
+                val response = RetrofitHelper.getInstance().create(NewsApiService::class.java).fetchNews(country, apiKey, searchTerm)
+                if(response.status == ApiConstants.OK_STATUS_RESPONSE)
+                    _newsList.value = response
+            } catch (e: Exception) {
+                Log.e("DataLoaderViewModel", "Error: ${e.message}")
+                return@launch
+            }finally {
+                _isLoading.postValue(false)
+            }
+        }
+    }
 }

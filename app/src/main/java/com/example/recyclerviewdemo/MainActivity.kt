@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -40,6 +41,26 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.news.observe(this) {
             recyclerView.adapter = MyRecyclerViewAdapter(newsResponse = it)
+        }
+
+        val searchView = findViewById<SearchView>(R.id.searchview)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (!query.isNullOrEmpty()) {
+                    viewModel.searchNews("us", ApiConstants.API_KEY, query)
+                } else {
+                    viewModel.loadNews("us", ApiConstants.API_KEY)
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
+        searchView.setOnCloseListener {
+            viewModel.loadNews("us", ApiConstants.API_KEY)
+            false
         }
 
     }
