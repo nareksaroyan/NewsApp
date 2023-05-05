@@ -36,7 +36,22 @@ class DataLoaderViewModel : ViewModel() {
         viewModelScope.launch {
             _isLoading.postValue(true)
             try {
-                val response = RetrofitHelper.getInstance().create(NewsApiService::class.java).fetchNews(country, apiKey, searchTerm)
+                val response = RetrofitHelper.getInstance().create(NewsApiService::class.java).searchNews(country, apiKey, searchTerm)
+                if(response.status == ApiConstants.OK_STATUS_RESPONSE)
+                    _newsList.value = response
+            } catch (e: Exception) {
+                Log.e("DataLoaderViewModel", "Error: ${e.message}")
+                return@launch
+            }finally {
+                _isLoading.postValue(false)
+            }
+        }
+    }
+    fun filterNews(country: String, apiKey: String, filterTerm: String) {
+        viewModelScope.launch {
+            _isLoading.postValue(true)
+            try {
+                val response = RetrofitHelper.getInstance().create(NewsApiService::class.java).filterNews(country, apiKey, filterTerm)
                 if(response.status == ApiConstants.OK_STATUS_RESPONSE)
                     _newsList.value = response
             } catch (e: Exception) {
