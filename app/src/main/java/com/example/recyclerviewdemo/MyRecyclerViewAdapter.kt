@@ -1,11 +1,14 @@
 package com.example.recyclerviewdemo
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
@@ -23,7 +26,9 @@ class MyRecyclerViewAdapter(private val newsResponse : NewsResponse) : RecyclerV
         holder.itemView.setOnClickListener {
             //test click
             Toast.makeText(holder.view.context, news.articles[position].author, Toast.LENGTH_LONG).show();
-            // Navigate to the detail fragment and show the full text of the selected news article
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(news.articles[position].url))
+            it.context.startActivity(intent)
+        // Navigate to the detail fragment and show the full text of the selected news article
             //val action = NewsListFragmentDirections.actionNewsListFragmentToNewsDetailFragment(news)
             //holder.itemView.findNavController().navigate(action)
         }

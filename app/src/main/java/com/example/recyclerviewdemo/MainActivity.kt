@@ -8,27 +8,29 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recyclerviewdemo.databinding.ActivityMainBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     lateinit var viewModel: DataLoaderViewModel
     private lateinit var progressBar: ProgressBar
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        progressBar = findViewById(R.id.progressBar)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         viewModel = ViewModelProvider(this)[DataLoaderViewModel::class.java]
 
         viewModel.isLoading.observe(this, Observer { isLoading ->
-            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         })
 
         viewModel.loadNews("us", ApiConstants.API_KEY)
@@ -43,8 +45,7 @@ class MainActivity : AppCompatActivity() {
             recyclerView.adapter = MyRecyclerViewAdapter(newsResponse = it)
         }
 
-        val searchView = findViewById<SearchView>(R.id.searchview)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
                     viewModel.searchNews("us", ApiConstants.API_KEY, query)
@@ -58,10 +59,15 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
         })
-        searchView.setOnCloseListener {
+        binding.searchview.setOnCloseListener {
             viewModel.loadNews("us", ApiConstants.API_KEY)
             false
         }
+    }
+    private fun fragmentChange(fragment: Fragment){
+        val fragmentManager = supportFragmentManager
+        val fragmentTransition = fragmentManager.beginTransaction()
+        //fragmentTransition.replace(R.id.fragmentContainerView, fragment)
 
     }
 }
