@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
@@ -18,6 +19,14 @@ class MyRecyclerViewAdapter(private val newsResponse : NewsResponse) : RecyclerV
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val news = newsResponse
         holder.bind(news, position)
+
+        holder.itemView.setOnClickListener {
+            //test click
+            Toast.makeText(holder.view.context, news.articles[position].author, Toast.LENGTH_LONG).show();
+            // Navigate to the detail fragment and show the full text of the selected news article
+            //val action = NewsListFragmentDirections.actionNewsListFragmentToNewsDetailFragment(news)
+            //holder.itemView.findNavController().navigate(action)
+        }
     }
 
     override fun getItemCount(): Int {
